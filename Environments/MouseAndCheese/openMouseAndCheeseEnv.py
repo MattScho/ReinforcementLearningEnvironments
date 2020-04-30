@@ -1,4 +1,7 @@
 from Environments.MouseAndCheese.mouseAndCheeseEnv import MouseAndCheeseEnv
+from Environments.MouseAndCheese.mouse import Mouse
+from Environments.MouseAndCheese.cheese import Cheese
+import random
 
 class OpenMouseAndCheeseEnv(MouseAndCheeseEnv):
     '''
@@ -34,6 +37,8 @@ class OpenMouseAndCheeseEnv(MouseAndCheeseEnv):
         :param action:
         :return:
         '''
+        action = action[0]
+        previous = self.euclidDistance()
         # Move up
         if action == 0:
             # Check move up possible, if so take action and clean up
@@ -70,5 +75,17 @@ class OpenMouseAndCheeseEnv(MouseAndCheeseEnv):
         done = False
         if self.cheese.getX() == self.mouse.getX() and self.cheese.getY() == self.mouse.getY():
             done = True
+        reward = previous - self.euclidDistance()
+        if reward > 0:
+            reward = 1
+        else:
+            reward = -1
+        return self.map, reward, done, {}
 
-        return self.map, done
+    def reset(self):
+
+        self.map = self.createMap(self.length, self.width)
+        self.length = self.length
+        self.width = self.width
+        self.mouse = Mouse(random.randint(0,self.width), random.randint(0,self.length))
+        self.cheese = Cheese(random.randint(0,self.width), random.randint(0,self.length))

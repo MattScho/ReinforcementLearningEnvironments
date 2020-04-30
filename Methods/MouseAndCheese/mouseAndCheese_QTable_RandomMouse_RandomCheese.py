@@ -8,10 +8,13 @@ The mouse is initialized to a random location
 The cheese is initialized always to a central location of (5,5)
 '''
 
+
+
 from Environments.MouseAndCheese.openMouseAndCheeseEnv import OpenMouseAndCheeseEnv
 import numpy as np
 import random
 import math
+import pickle as pkl
 
 class MaC_QTable:
 
@@ -142,7 +145,7 @@ for trial in range(trials):
 '''
 After Training see how the agent preforms
 '''
-print(agent.QTable)
+pkl.dump(agent.QTable, open("mouseAndCheeseQTable.pkl", 'wb+'))
 # Init new environment
 input("Ready to see the agent preform in a game?(Press enter)")
 for sampleGame in range(5):

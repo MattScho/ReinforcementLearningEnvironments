@@ -3,10 +3,10 @@ from Environments.MouseAndCheese.openMouseAndCheeseEnv import OpenMouseAndCheese
 # Init environment
 env = OpenMouseAndCheeseEnv()
 
-print("0. Up\n"
-      "1. Down\n"
-      "2. Left\n"
-      "3. Right\n")
+print("1. Up\n"
+      "2. Down\n"
+      "3. Left\n"
+      "4. Right\n")
 while True:
     # show state
     env.render()

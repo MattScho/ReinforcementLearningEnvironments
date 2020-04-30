@@ -1,5 +1,6 @@
 from Environments.MouseAndCheese.mouse import Mouse
 from Environments.MouseAndCheese.cheese import Cheese
+import math
 
 class MouseAndCheeseEnv:
     '''
@@ -22,6 +23,9 @@ class MouseAndCheeseEnv:
         self.width = width
         self.mouse = Mouse(mouseStartX, mouseStartY)
         self.cheese = Cheese(cheeseStartX, cheeseStartY)
+
+    def euclidDistance(self):
+        return math.sqrt((self.mouse.getX() - self.cheese.getX())**2 + (self.mouse.getY() - self.cheese.getY())**2)
 
     def createMap(self, length, width):
         '''
