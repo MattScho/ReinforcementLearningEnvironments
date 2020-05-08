@@ -8,7 +8,7 @@ The mouse is initialized to a random location
 The cheese is initialized always to a central location of (5,5)
 '''
 
-from Environments.MouseAndCheese.openMouseAndCheeseEnv import OpenMouseAndCheeseEnv
+from Environments.MouseAndCheese.mouseAndCheeseEnvSimplified import MouseAndCheeseEnvSimplified
 import numpy as np
 import random
 import math
@@ -87,9 +87,6 @@ def rewardCalc(score):
     else:
         return -1
 
-# Init environment
-env = OpenMouseAndCheeseEnv()
-
 # Run 1000 trials, max duration of a trial 100
 trials = 1000
 trial_len = 100
@@ -102,7 +99,7 @@ for trial in range(trials):
     # Log current trial
     print(trial)
     # Reinitialize an environment
-    env = OpenMouseAndCheeseEnv(
+    env = MouseAndCheeseEnvSimplified(
         mouseStartX=random.randint(0,9),
         mouseStartY=random.randint(0,9)
     )
@@ -143,7 +140,7 @@ After Training see how the agent preforms
 input("Ready to see the agent preform in a game?(Press enter)")
 for sampleGame in range(5):
     input("Press Enter to begin game " + str(sampleGame))
-    env = OpenMouseAndCheeseEnv()
+    env = MouseAndCheeseEnvSimplified()
     print()
     print("----------")
     print(sampleGame)

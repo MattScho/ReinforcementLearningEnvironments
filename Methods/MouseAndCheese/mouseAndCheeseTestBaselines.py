@@ -1,17 +1,17 @@
 '''
-This script shows how to use a call back in stable baselines
-
+Tests the mouse and cheese environment, and variants, with different agents and show results over time
 '''
-
 
 import os
 import numpy as np
 import matplotlib.pyplot as plt
 import gym
-from Environments.BikeShare.UniformSimulation.UniformTileEnv import UniformTileEnv
+from Environments.MouseAndCheese.mouseAndCheeseEnv import MouseAndCheeseEnv
+from Environments.MouseAndCheese.mouseAndCheeseEnvSimplified import MouseAndCheeseEnvSimplified
+import random
 
 from stable_baselines import A2C, PPO1, PPO2, ACER, ACKTR, TRPO
-from stable_baselines.common.policies import MlpPolicy
+from stable_baselines.common.policies import MlpPolicy, CnnPolicy
 #from stable_baselines.deepq import MlpPolicy
 from stable_baselines import results_plotter
 from stable_baselines.bench import Monitor
@@ -64,22 +64,22 @@ class LogResultsCallback(BaseCallback):
         return True
 
 # Create and wrap the environment
-env = UniformTileEnv(6,6,1)
+env = MouseAndCheeseEnv(10, 10,
+                        random.randint(0, 9),
+                        random.randint(0, 9),
+                        random.randint(0, 9),
+                        random.randint(0, 9))
 
-# Create directories
-for dir in ["PPO1", "A2C"]:
-    os.makedirs(dir+ "_MlpPolicy_log/")
-# Check environment
+os.makedirs("A2C_MlpPolicy_log/")
+
+
 print(env)
 print(env.action_space.sample())
-
-# Agents
 agentsToTest = {
      "A2C_MlpPolicy": A2C(MlpPolicy, Monitor(env, "A2C_MlpPolicy_log/"), verbose=0),
-     "PPO1_MlpPolicy": PPO1(MlpPolicy, Monitor(env, "PPo1_MlpPolicy_log/"), verbose=0)
+
 }
 
-# Run each agent
 for agent in agentsToTest.keys():
     print(agent)
     # Get model
@@ -91,9 +91,10 @@ for agent in agentsToTest.keys():
 
 
     # Train agent, every 1000 steps log results
-    callback = LogResultsCallback(check_freq=1000, log_dir=log_dir, verbose=1)
+    callback = LogResultsCallback(check_freq=100, log_dir=log_dir, verbose=1)
     # Train the agent
     time_steps = 100000
     model.learn(total_timesteps=time_steps, callback=callback)
     results_plotter.plot_results([log_dir], time_steps, results_plotter.X_TIMESTEPS, agent)
+    plt.ylim([-20,20])
     plt.savefig(agent + ".png")

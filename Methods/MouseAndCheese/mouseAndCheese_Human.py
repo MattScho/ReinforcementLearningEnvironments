@@ -1,8 +1,21 @@
-from Environments.MouseAndCheese.openMouseAndCheeseEnv import OpenMouseAndCheeseEnv
-
+from Environments.MouseAndCheese.mouseAndCheeseEnv import MouseAndCheeseEnv
+from Environments.MouseAndCheese.mouseAndCheeseEnvSimplified import MouseAndCheeseEnvSimplified
+import random
 # Init environment
-env = OpenMouseAndCheeseEnv()
+'''
+env = MouseAndCheeseEnv(10, 10,
+                        random.randint(0, 9),
+                        random.randint(0, 9),
+                        random.randint(0, 9),
+                        random.randint(0, 9))
+'''
+env = MouseAndCheeseEnvSimplified(10, 10,
+                        random.randint(0, 9),
+                        random.randint(0, 9),
+                        random.randint(0, 9),
+                        random.randint(0, 9))
 
+env.reset()
 print("1. Up\n"
       "2. Down\n"
       "3. Left\n"
@@ -12,7 +25,7 @@ while True:
     env.render()
     # get command
     cmd = int(input(">"))
-    _, done = env.step(cmd)
+    state, reward, done, info = env.step(cmd)
     if done:
         print("Congrats")
         break

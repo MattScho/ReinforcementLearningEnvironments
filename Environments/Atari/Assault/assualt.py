@@ -2,7 +2,9 @@ from stable_baselines.common.cmd_util import make_atari_env
 import gym
 
 class AssualtEnv(gym.Env):
-    """Custom Environment that follows gym interface"""
+    """
+    Wraps
+    """
     metadata = {'render.modes': ['human']}
 
     def __init__(self, num_envs=4):
